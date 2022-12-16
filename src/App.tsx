@@ -1,9 +1,13 @@
+import { Wrapper, GlobalStyle } from "./App.styles"
+import ImageTrack from "./components/ImageTrack";
+
 function App() {
 
   return (
-    <div className="App">
-
-    </div>
+    <Wrapper className="App">
+      <GlobalStyle/>
+      <ImageTrack/>
+    </Wrapper>
   )
 }
 
