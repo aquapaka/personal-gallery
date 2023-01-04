@@ -1,7 +1,12 @@
 import {Wrapper} from "./ImageTrack.styles";
-import React, {useRef, useState} from "react";
+import React, {Dispatch, SetStateAction, useRef, useState} from "react";
 
-const ImageTrack = () => {
+type Props = {
+  imageUrls: string[],
+  setCurrentImageNumber: Dispatch<SetStateAction<number>>;
+}
+
+const ImageTrack: React.FC<Props> = ({imageUrls, setCurrentImageNumber}) => {
   const imageTrackRef = useRef<HTMLDivElement>(null);
   const [mouseDownPos, setMouseDownPos] = useState(0);
   const [prevPercentage, setPrevPercentage] = useState(0);
@@ -18,7 +23,11 @@ const ImageTrack = () => {
 
     // Calculate current percentage after mouse move
     const deltaX = mouseDownPos - e.clientX;
-    setPercentage(Math.min(100, Math.max(0, prevPercentage + (deltaX / maxDeltaX) * 100)));
+    const percentage = Math.min(100, Math.max(0, prevPercentage + (deltaX / maxDeltaX) * 100));
+    setPercentage(percentage);
+
+    // Update page number
+    setCurrentImageNumber(Math.ceil(percentage / 100 * 8 - 0.1));
 
     // Animate track movement
     imageTrackRef.current!.animate({
@@ -39,15 +48,8 @@ const ImageTrack = () => {
   })
 
   return (
-    <Wrapper ref={imageTrackRef} id="image-track">
-      <img src="https://images.pexels.com/photos/1428277/pexels-photo-1428277.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"/>
-      <img src="https://images.pexels.com/photos/2422970/pexels-photo-2422970.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"/>
-      <img src="https://images.pexels.com/photos/3244513/pexels-photo-3244513.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"/>
-      <img src="https://images.pexels.com/photos/1183099/pexels-photo-1183099.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"/>
-      <img src="https://images.pexels.com/photos/1367192/pexels-photo-1367192.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"/>
-      <img src="https://images.pexels.com/photos/2085998/pexels-photo-2085998.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"/>
-      <img src="https://images.pexels.com/photos/2757549/pexels-photo-2757549.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"/>
-      <img src="https://images.pexels.com/photos/213172/pexels-photo-213172.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"/>
+    <Wrapper ref={imageTrackRef}>
+      {imageUrls.map(imageUrl => <img src={imageUrl}/>)}
     </Wrapper>
   )
 }
