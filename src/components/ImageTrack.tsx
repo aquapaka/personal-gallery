@@ -27,7 +27,7 @@ const ImageTrack: React.FC<Props> = ({imageUrls, setCurrentImageNumber}) => {
     setPercentage(percentage);
 
     // Update page number
-    setCurrentImageNumber(Math.ceil(percentage / 100 * 8 - 0.1));
+    setCurrentImageNumber(Math.max(Math.ceil(percentage / 100 * 8 - 0.1), 1));
 
     // Animate track movement
     imageTrackRef.current!.animate({
@@ -49,7 +49,7 @@ const ImageTrack: React.FC<Props> = ({imageUrls, setCurrentImageNumber}) => {
 
   return (
     <Wrapper ref={imageTrackRef}>
-      {imageUrls.map(imageUrl => <img src={imageUrl}/>)}
+      {imageUrls.map(imageUrl => <img src={imageUrl} alt="image"/>)}
     </Wrapper>
   )
 }
