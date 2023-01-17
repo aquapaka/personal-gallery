@@ -6,23 +6,22 @@ type Props = {
 }
 
 const fadeOutAnimation = keyframes`
-    0% {
-      opacity: 1;
-      visibility: visible;
-    }
-    100% {
-      opacity: 0;
-      visibility: hidden;
-    }
+  0% {
+    opacity: 1;
+    visibility: visible;
+  }
+  100% {
+    opacity: 0;
+    visibility: hidden;
+  }
 `;
 
 export const Wrapper = styled.div<Props>`
-  position: absolute;
-  top: 0;
-  right: 0;
+  position: fixed;
   width: 100vw;
   height: 100vh;
   z-index: 1000;
+  overflow: hidden;
   background: black;
   -webkit-animation: ${fadeOutAnimation} 0.3s ease-in ${props => props.animationDelay}s forwards ${props => props.isLoading ? "pause" : "running"};
   animation: ${fadeOutAnimation} 0.3s ease-in ${props => props.animationDelay}s forwards ${props => props.isLoading ? "pause" : "running"};
@@ -73,7 +72,7 @@ export const LoadingIcon = styled.div`
   }
 
   height: 20px;
-  position: relative;
+  position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
